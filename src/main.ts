@@ -102,7 +102,7 @@ const revisarPartida = () => {
 };
 
 const pedirCarta = () => {
-    if (gameOver) return;
+    // if (gameOver) return;
     
     const numeroAleatorio = generarNumeroAleatorio();
     const carta = generarNumeroCarta(numeroAleatorio);
@@ -115,19 +115,25 @@ const pedirCarta = () => {
     revisarPartida();
 };
 
-const plantarse = () => {
-    if (gameOver) return;
-    plantado = true;
-    
+const obtenerMensajePlantarse = () => {
     if (puntosTotales < 4) {
-        mostrarMensaje("Has sido muy conservador");
+        return "Has sido muy conservador";
     } else if (puntosTotales === 5) {
-        mostrarMensaje("Te ha entrado el canguelo eh?");
+        return "Te ha entrado el canguelo eh?";
     } else if (puntosTotales === 6 || puntosTotales === 7) {
-        mostrarMensaje("Casi casi...");
+        return "Casi casi...";
     } else if (puntosTotales === 7.5) {
-        mostrarMensaje("¡Lo has clavado! ¡Enhorabuena!");
+        return "¡Lo has clavado! ¡Enhorabuena!";
     }
+    return "Has perdido";
+}
+
+const plantarse = () => {
+    // if (gameOver) return;
+    // plantado = true;
+    
+    const mensaje = obtenerMensajePlantarse();
+    mostrarMensaje(mensaje);
     finalizarPartida();
 };
 
@@ -158,7 +164,30 @@ const reiniciarPartida = () => {
     document.getElementById('whatIfButton')!.style.display = 'none';
 };
 
-document.getElementById('pedirCarta')!.addEventListener('click', pedirCarta);
-document.getElementById('plantarse')!.addEventListener('click', plantarse);
-document.getElementById('reiniciar')!.addEventListener('click', reiniciarPartida);
-document.getElementById('whatIfButton')!.addEventListener('click', whatIf);
+// document.getElementById('pedirCarta')!.addEventListener('click', pedirCarta);
+// document.getElementById('plantarse')!.addEventListener('click', plantarse);
+// document.getElementById('reiniciar')!.addEventListener('click', reiniciarPartida);
+// document.getElementById('whatIfButton')!.addEventListener('click', whatIf);
+
+const elementoPlantarse = document.getElementById('plantarse');
+if (elementoPlantarse && elementoPlantarse instanceof HTMLButtonElement) {
+    elementoPlantarse.addEventListener('click', plantarse);
+}
+
+const elementoPedirCarta = document.getElementById('pedirCarta');
+if (elementoPedirCarta && elementoPedirCarta instanceof HTMLButtonElement) {
+    elementoPedirCarta.addEventListener('click', pedirCarta);
+}
+
+const elementoReiniciarPartida = document.getElementById('reiniciarPartida');
+if (elementoReiniciarPartida && elementoReiniciarPartida instanceof HTMLButtonElement) {
+    elementoReiniciarPartida.addEventListener('click', reiniciarPartida);
+}
+
+const elementoWhatIf = document.getElementById('whatIf');
+if (elementoWhatIf && elementoWhatIf instanceof HTMLButtonElement) {
+    elementoWhatIf.addEventListener('click', whatIf);
+}
+
+
+
