@@ -1,6 +1,4 @@
 let puntosTotales = 0;
-let gameOver = false;
-let plantado = false;
 
 const generarNumeroAleatorio = () => {
     return Math.floor(Math.random() * 10) + 1;
@@ -82,16 +80,30 @@ const mostrarMensaje = (mensaje: string) => {
 };
 
 const finalizarPartida = () => {
-    gameOver = true;
-    document.getElementById('reiniciar')!.style.display = 'block';
-    document.getElementById('whatIfButton')!.style.display = 'block';
-    (document.getElementById('pedirCarta') as HTMLButtonElement).disabled = true;
-    (document.getElementById('plantarse') as HTMLButtonElement).disabled = true;
+    const reiniciarBtn = document.getElementById('reiniciar');
+    if (reiniciarBtn && reiniciarBtn instanceof HTMLButtonElement) {
+        reiniciarBtn.style.display = 'block';
+    }
+
+    const whatIfBtn = document.getElementById('whatIfButton');
+    if (whatIfBtn && whatIfBtn instanceof HTMLButtonElement) {
+        whatIfBtn.style.display = 'block';
+    }
+
+    const pedirCartaBtn = document.getElementById('pedirCarta');
+    if (pedirCartaBtn && pedirCartaBtn instanceof HTMLButtonElement) {
+        pedirCartaBtn.disabled = true;
+    }
+
+    const plantarseBtn = document.getElementById('plantarse');
+    if (plantarseBtn && plantarseBtn instanceof HTMLButtonElement) {
+        plantarseBtn.disabled = true;
+    }
 };
 
 const revisarPartida = () => {
     if (puntosTotales === 7.5) {
-        console.log('he ganado la partida');
+        mostrarMensaje('he ganado la partida');
         finalizarPartida();
     }
     if (puntosTotales > 7.5) {
@@ -138,30 +150,40 @@ const plantarse = () => {
 };
 
 const whatIf = () => {
-    if (!plantado) return;
     let simulacionPuntos = puntosTotales;
-    while (simulacionPuntos <= 7.5) {
-        const numeroAleatorio = generarNumeroAleatorio();
+    const numeroAleatorio = generarNumeroAleatorio();
         const carta = generarNumeroCarta(numeroAleatorio);
         const puntosCarta = obtenerPuntosCarta(carta);
         simulacionPuntos += puntosCarta;
         if (simulacionPuntos > 7.5) {
             mostrarMensaje(`Si hubieras seguido, te habrías pasado con ${simulacionPuntos} puntos.`);
-            break;
         }
-    }
 };
 
 const reiniciarPartida = () => {
     puntosTotales = 0;
-    gameOver = false;
-    plantado = false;
     muestraPuntuacion();
     mostrarMensaje('');
-    (document.getElementById('pedirCarta') as HTMLButtonElement).disabled = false;
-    (document.getElementById('plantarse') as HTMLButtonElement).disabled = false;
-    document.getElementById('reiniciar')!.style.display = 'none';
-    document.getElementById('whatIfButton')!.style.display = 'none';
+
+    const pedirCartaBtn = document.getElementById('pedirCarta');
+    if (pedirCartaBtn && pedirCartaBtn instanceof HTMLButtonElement) {
+        pedirCartaBtn.disabled = false;
+    }
+
+    const plantarseBtn = document.getElementById('plantarse');
+    if (plantarseBtn && plantarseBtn instanceof HTMLButtonElement) {
+        plantarseBtn.disabled = false;
+    }
+
+    const reiniciarBtn = document.getElementById('reiniciar');
+    if (reiniciarBtn && reiniciarBtn instanceof HTMLElement) {
+        reiniciarBtn.style.display = 'none';
+    }
+
+    const whatIfBtn = document.getElementById('whatIfButton');
+    if (whatIfBtn && whatIfBtn instanceof HTMLElement) {
+        whatIfBtn.style.display = 'none';
+    }
 };
 
 // document.getElementById('pedirCarta')!.addEventListener('click', pedirCarta);
